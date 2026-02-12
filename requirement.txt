@@ -1,0 +1,24 @@
+# Core LangChain
+langchain>=0.1.20
+langchain-community>=0.0.36
+langchain-openai>=0.1.7
+langchain_ollama
+
+# LLM Providers
+openai>=1.12.0
+
+# Vector Database
+faiss-cpu>=1.7.4
+
+# PDF Processing
+pypdf>=4.1.0
+
+# Environment Variables
+python-dotenv>=1.0.1
+
+# Optional (for future UI / API)
+streamlit>=1.32.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+
+ftfy

@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+chatenv/
+env/
+.env/
+
+# Python package manager
+*.egg-info/
+dist/
+build/
+
+# VSCode settings
+.vscode/
+.history/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Streamlit files
+.streamlit/
+
+# FAISS index or vectorstore files (if you don't want to track large indexes)
+faiss_*.index
+*.faiss
+
+# HuggingFace cache
+cache/
+*.ckpt
+*.h5
+*.pt
+*.safetensors
+
+# Logs
+*.log
+
+# Images (if you want to keep only some)
+*.png
+*.jpg
+*.jpeg
+
+# OS files
+*.swp
