@@ -1,19 +1,16 @@
 import streamlit as st
-from llm_loader import ask_constitution_question  # your LLM loader
+from llm_loader import ask_constitution_question  
 from pathlib import Path
+from restore_faiss import search_constitution
 
-# --------------------------
-# Page configuration
-# --------------------------
+
 st.set_page_config(
     page_title="नेपाल संविधान Q&A",
     page_icon="📝",
     layout="wide",
 )
 
-# --------------------------
-# Custom CSS for better UI
-# --------------------------
+
 st.markdown(
     """
     <style>
@@ -56,18 +53,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --------------------------
-# Display header image
-# --------------------------
-IMAGE_PATH = "img.png"  # <-- put your image here
+
+IMAGE_PATH = "asserts/img.png" 
 if Path(IMAGE_PATH).exists():
     st.image(IMAGE_PATH, width=700, caption="नेपालको संविधान Q&A")
 else:
     st.warning(f"Image not found at {IMAGE_PATH}")
 
-# --------------------------
-# Sidebar instructions
-# --------------------------
+
 with st.sidebar:
     st.header("🔎 कसरी प्रयोग गर्ने")
     st.write("""
@@ -77,20 +70,16 @@ with st.sidebar:
     4. जवाफमा स्रोत र पृष्ठ पनि उल्लेख हुनेछ।  
     """)
 
-# --------------------------
-# User input
-# --------------------------
 user_question = st.text_input("Question:")
 
-# Placeholder context for now (replace with FAISS retrieval)
-retrieved_context = """
-Page 7: नागरिकको मौलिक अधिकारहरू: 
-- जीवन र स्वतन्त्रताको अधिकार
-- अभिव्यक्ति र विचारको स्वतन्त्रता
-- धर्म, संस्कृति, र भाषा पालनको अधिकार
-- शिक्षा र स्वास्थ्य सेवा प्राप्त गर्ने अधिकार
-- समानता र गैर-भेदभावको अधिकार
-"""
+# retrieved_context = """
+# Page 7: नागरिकको मौलिक अधिकारहरू: 
+# - जीवन र स्वतन्त्रताको अधिकार
+# - अभिव्यक्ति र विचारको स्वतन्त्रता
+# - धर्म, संस्कृति, र भाषा पालनको अधिकार
+# - शिक्षा र स्वास्थ्य सेवा प्राप्त गर्ने अधिकार
+# - समानता र गैर-भेदभावको अधिकार
+# """
 
 # --------------------------
 # Answer generation
@@ -101,6 +90,8 @@ if st.button("जवाफ प्राप्त गर्नुहोस्"):
     else:
         with st.spinner("AI ले उत्तर तयार गर्दैछ... ⏳"):
             try:
+                retrieved_chunks = search_constitution(user_question, k=3)
+                retrieved_context = "\n".join([docs.page_content for docs in retrieved_chunks])
                 answer = ask_constitution_question(retrieved_context, user_question)
                 st.write("### उत्तर:")
                 st.write(answer)
